@@ -40,6 +40,8 @@ resource "azurerm_linux_virtual_machine" "vm-1" {
   location            = azurerm_resource_group.main-resource-group.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
+  custom_data    = filebase64("azure-user-data.sh")
+
   network_interface_ids = [
     azurerm_network_interface.main-nic.id,
   ]
@@ -48,7 +50,6 @@ resource "azurerm_linux_virtual_machine" "vm-1" {
     username   = "adminuser"
     public_key = file("~/.ssh/id_rsa.pub")
   }
-
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
