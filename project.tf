@@ -34,8 +34,8 @@ resource "azurerm_network_interface" "main-nic" {
   }
 }
 
-resource "azurerm_linux_virtual_machine" "main" {
-  name                = "main-machine"
+resource "azurerm_linux_virtual_machine" "vm-1" {
+  name                = "vm-1"
   resource_group_name = azurerm_resource_group.main-resource-group.name
   location            = azurerm_resource_group.main-resource-group.location
   size                = "Standard_F2"
