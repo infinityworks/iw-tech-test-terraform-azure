@@ -1,3 +1,6 @@
+# ignores history if extention isinstalled
+.history
+
 # Local .terraform directories
 **/.terraform/*
 
