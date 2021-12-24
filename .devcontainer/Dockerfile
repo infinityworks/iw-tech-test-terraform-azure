@@ -81,10 +81,6 @@ RUN echo "alias fd=fdfind" >> /home/${USERNAME}/.bashrc
 RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --yes \
     && echo 'eval "$(starship init bash)"' >> /home/$USERNAME/.bashrc \
     && echo 'source <(awless completion bash)' >> /home/$USERNAME/.bashrc
-    # Ondir for environment switching
-    #
-RUN apt-get install -y ondir \
-    && echo 'source /usr/share/ondir/integration/bash' >> /home/$USERNAME/.bashrc
     # git-secrets to help prevent committing secrets to git
     #
 RUN mkdir -p /tmp/secrets && cd /tmp/secrets \
@@ -104,8 +100,6 @@ RUN apt-get autoremove -y \
     # Install BpyTop
     #
 RUN pip3 install bpytop
-
-COPY --chown=${USER_UID}:${USER_GID} .terraformrc .ondirrc /home/${USERNAME}/
 
 RUN git secrets --install ~/.git-templates/git-secrets \
     && git config --global init.templateDir ~/.git-templates/git-secrets
