@@ -1,19 +1,18 @@
-resource "azurerm_resource_group" "main-resource-group" {
-  name     = "main-resource-group"
-  location = var.location
+data "azurerm_resource_group" "main-resource-group" {
+  name = "x-xxxxxxx-playground-sandbox"
 }
 
 resource "azurerm_virtual_network" "main-network" {
   name                = "virtual-network-main"
-  location            = azurerm_resource_group.main-resource-group.location
-  resource_group_name = azurerm_resource_group.main-resource-group.name
+  location            = data.azurerm_resource_group.main-resource-group.location
+  resource_group_name = data.azurerm_resource_group.main-resource-group.name
   address_space       = ["10.0.0.0/16"]
 
 }
 
 resource "azurerm_subnet" "primary-subnet" {
   name                 = "primary-subnet"
-  resource_group_name  = azurerm_resource_group.main-resource-group.name
+  resource_group_name  = data.azurerm_resource_group.main-resource-group.name
   virtual_network_name = azurerm_virtual_network.main-network.name
   address_prefixes     = ["10.0.1.0/24"]
 
@@ -22,8 +21,8 @@ resource "azurerm_subnet" "primary-subnet" {
 
 resource "azurerm_network_interface" "main-nic" {
   name                = "main-nic"
-  location            = azurerm_resource_group.main-resource-group.location
-  resource_group_name = azurerm_resource_group.main-resource-group.name
+  location            = data.azurerm_resource_group.main-resource-group.location
+  resource_group_name = data.azurerm_resource_group.main-resource-group.name
 
   ip_configuration {
     name                          = "Internal"
@@ -34,8 +33,8 @@ resource "azurerm_network_interface" "main-nic" {
 
 resource "azurerm_linux_virtual_machine" "vm-1" {
   name                = "vm-1"
-  resource_group_name = azurerm_resource_group.main-resource-group.name
-  location            = azurerm_resource_group.main-resource-group.location
+  resource_group_name = data.azurerm_resource_group.main-resource-group.name
+  location            = data.azurerm_resource_group.main-resource-group.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
   custom_data         = filebase64("azure-user-data.sh")
@@ -63,8 +62,8 @@ resource "azurerm_linux_virtual_machine" "vm-1" {
 
 resource "azurerm_network_security_group" "access-allow-all" {
   name                = "allow-all-access-sg"
-  location            = azurerm_resource_group.main-resource-group.location
-  resource_group_name = azurerm_resource_group.main-resource-group.name
+  location            = data.azurerm_resource_group.main-resource-group.location
+  resource_group_name = data.azurerm_resource_group.main-resource-group.name
 
   security_rule {
     name                       = "allow-all-access-sg"
