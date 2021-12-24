@@ -17,7 +17,7 @@ resource "azurerm_subnet" "primary-subnet" {
   virtual_network_name = azurerm_virtual_network.main-network.name
   address_prefixes     = ["10.0.1.0/24"]
 
-
+  
 }
 
 resource "azurerm_network_interface" "main-nic" {
@@ -38,7 +38,7 @@ resource "azurerm_linux_virtual_machine" "vm-1" {
   location            = azurerm_resource_group.main-resource-group.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
-  custom_data         = filebase64("azure-user-data.sh")
+  custom_data    = filebase64("azure-user-data.sh")
 
   network_interface_ids = [
     azurerm_network_interface.main-nic.id,
