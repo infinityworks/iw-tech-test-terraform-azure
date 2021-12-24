@@ -57,7 +57,6 @@ You may find it easiest to share your whole home folder / user profile.
 1. [git-remote-codecommit](https://github.com/aws/git-remote-codecommit) extension for Git
    - Most consistent and flexible multi-account CodeCommit credentials management
 1. AWS CLI tools (v2)
-1. [awless](https://github.com/wallix/awless), a useful supplementary AWS CLI
 1. Azure CLI
 1. Docker CLI (for managing extra containers alongside this one)
 1. [Terraform](https://www.terraform.io/)
@@ -65,7 +64,5 @@ You may find it easiest to share your whole home folder / user profile.
    - Configure which version in the Dockerfile
 1. The [Starship](https://starship.rs/) prompt tool, providing information in
    the terminal
-1. [ondir](https://github.com/alecthomas/ondir)
-   - Plus config designed to switch AWS profiles and environment vars quickly
 1. [awslabs/git-secrets](https://github.com/awslabs/git-secrets) to help prevent committing secrets to Git
    - Automatically applied to all Git clones made inside the container
