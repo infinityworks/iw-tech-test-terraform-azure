@@ -1,46 +1,55 @@
-data "azurerm_resource_group" "main-resource-group" {
-  name = "x-xxxxxxx-playground-sandbox"
+data "azurerm_resource_group" "main_resource_group" {
+  name = "x-xxxxxxxx-playground-sandbox"
 }
 
-resource "azurerm_virtual_network" "main-network" {
+resource "azurerm_virtual_network" "main_network" {
   name                = "virtual-network-main"
-  location            = data.azurerm_resource_group.main-resource-group.location
-  resource_group_name = data.azurerm_resource_group.main-resource-group.name
+  resource_group_name = data.azurerm_resource_group.main_resource_group.name
+  location            = data.azurerm_resource_group.main_resource_group.location
   address_space       = ["10.0.0.0/16"]
-
 }
 
-resource "azurerm_subnet" "primary-subnet" {
+resource "azurerm_subnet" "primary_subnet" {
   name                 = "primary-subnet"
-  resource_group_name  = data.azurerm_resource_group.main-resource-group.name
-  virtual_network_name = azurerm_virtual_network.main-network.name
+  resource_group_name  = data.azurerm_resource_group.main_resource_group.name
+  virtual_network_name = azurerm_virtual_network.main_network.name
   address_prefixes     = ["10.0.1.0/24"]
-
-
 }
 
-resource "azurerm_network_interface" "main-nic" {
-  name                = "main-nic"
-  location            = data.azurerm_resource_group.main-resource-group.location
-  resource_group_name = data.azurerm_resource_group.main-resource-group.name
+resource "azurerm_public_ip" "vm_1" {
+  name                = "vm-1"
+  resource_group_name = data.azurerm_resource_group.main_resource_group.name
+  location            = data.azurerm_resource_group.main_resource_group.location
+  allocation_method   = "Static"
 
-  ip_configuration {
-    name                          = "Internal"
-    subnet_id                     = azurerm_subnet.primary-subnet.id
-    private_ip_address_allocation = "Dynamic"
+  tags = {
+    environment = "Development"
   }
 }
 
-resource "azurerm_linux_virtual_machine" "vm-1" {
+resource "azurerm_network_interface" "main_nic" {
+  name                = "main-nic"
+  resource_group_name = data.azurerm_resource_group.main_resource_group.name
+  location            = data.azurerm_resource_group.main_resource_group.location
+
+  ip_configuration {
+    name                          = "Internal"
+    subnet_id                     = azurerm_subnet.primary_subnet.id
+    private_ip_address_allocation = "Dynamic"
+    public_ip_address_id          = azurerm_public_ip.vm_1.id
+  }
+}
+
+resource "azurerm_linux_virtual_machine" "vm_1" {
   name                = "vm-1"
-  resource_group_name = data.azurerm_resource_group.main-resource-group.name
-  location            = data.azurerm_resource_group.main-resource-group.location
+  resource_group_name = data.azurerm_resource_group.main_resource_group.name
+  location            = data.azurerm_resource_group.main_resource_group.location
   size                = "Standard_F2"
   admin_username      = "adminuser"
   custom_data         = filebase64("azure-user-data.sh")
 
   network_interface_ids = [
-    azurerm_network_interface.main-nic.id,
+    azurerm_network_interface.main_nic.id,
   ]
 
   admin_ssh_key {
@@ -60,10 +69,10 @@ resource "azurerm_linux_virtual_machine" "vm-1" {
   }
 }
 
-resource "azurerm_network_security_group" "access-allow-all" {
+resource "azurerm_network_security_group" "access_allow_all" {
   name                = "allow-all-access-sg"
-  location            = data.azurerm_resource_group.main-resource-group.location
-  resource_group_name = data.azurerm_resource_group.main-resource-group.name
+  resource_group_name = data.azurerm_resource_group.main_resource_group.name
+  location            = data.azurerm_resource_group.main_resource_group.location
 
   security_rule {
     name                       = "allow-all-access-sg"
