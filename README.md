@@ -2,26 +2,16 @@
 
 Technical test for Engineers using azure terraform
 
-## NB
-
-Task is based of of Richard harper AWS techincal test and is work in progress 
-
-Original repo https://github.com/infinityworks/iw-tech-test-terraform
-
-Any feedback is welcome and encouraged
-
-email: tom.atkinson@infinityworks.com
-
 # Task
 
-There is a web server here which is listening on port 80. Modify the Terraform configuration to make it high availability. Anything else to improve?
+There is a web server here which is listening on port 80. Modify the Terraform configuration to make it high availability and secure. Anything else to improve?
 
 # Validation
 
 Can withstand loss of an availability zone.
 Reasonable security.
 
-## DevContainer setup (VSCODE)
+## DevContainer setup (VSCode)
 
 Install the extention `ms-vscode-remote.remote-containers`
 Reopen the unbalaced directory in the container
@@ -29,7 +19,7 @@ wait... (approx 5 minutes) read the log
 
 ## Docker Setup (Generic IDE)
 
-From the project folder execute `the run-docker'sh` script
+From the project folder execute the `run-docker.sh` script
 
 ```shell
 ./run-docker.sh
@@ -41,16 +31,20 @@ The workspace is mounted in the directory `/workspaces/iw-tech-test-terraform-az
 
 ## Azure credentails (ACloud Guru sandbox)
 
+Prerequisites:
+* Azure CLI
+* jq
+* Terraform 1.0 or above
+
 > Login to Azure 
 
 ```shell
 az login
-
 ```
 
-This will open a broswer you will be provided with a username/password
+This will open a browser. You will be provided with a username/password.
 
-Using the Azure CLI Find the Resource Group name 
+Using the Azure CLI, find the Resource Group name 
 
 ```shell
 az group list | jq -r ".[].name"
