@@ -1,15 +1,6 @@
 # iw-tech-test-terraform-azure
 
-Technical test for Engineers using azure terraform
-
-# Task
-
-There is a web server here which is listening on port 80. Modify the Terraform configuration to make it high availability and secure. Anything else to improve?
-
-# Validation
-
-Can withstand loss of an availability zone.
-Reasonable security.
+The task will be provided to you as part of the interview process.
 
 ## DevContainer setup (VSCode)
 
