@@ -78,7 +78,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN echo "alias fd=fdfind" >> /home/${USERNAME}/.bashrc
     # Starship prompt
     #
-RUN curl -fsSL https://starship.rs/install.sh | bash -s -- --yes \
+RUN curl -fsSL https://starship.rs/install.sh | sh -s -- --yes \
     && echo 'eval "$(starship init bash)"' >> /home/$USERNAME/.bashrc \
     && echo 'source <(awless completion bash)' >> /home/$USERNAME/.bashrc
     # git-secrets to help prevent committing secrets to git
